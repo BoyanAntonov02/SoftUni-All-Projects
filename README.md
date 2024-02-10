@@ -1,21 +1,17 @@
 # SoftUni-All-Projects
-A curated collection of my projects and coursework from Software University (SoftUni), focusing on Java, Spring, MySQL, OOP, Data structure and Problem Solving showcasing my journey through various programming courses.
 
-## Projects
+A curated collection of my exams and coursework from Software University (SoftUni), focusing on Java, Spring, MySQL, OOP, Data Structure, and Problem Solving.
 
-This repository includes a diverse range of projects from different stages of my coursework at Software University (SoftUni). 
-Below is an overview of the key projects and their corresponding technologies:
+### SoftUni-Fundamentals-Exam
+A comprehensive examination focused on programming fundamentals, showcasing my mastery of basic programming concepts, control flow, and data structures using Java.
 
-- **SoftUni-Fundamentals-Exam**: 
-A collection of projects focused on programming fundamentals, showcasing my understanding of basic programming concepts, control flow, and basic data structures using Java.
+### SoftUni-Advanced-Exam
+An advanced level exam that tests complex programming concepts, data structures, and algorithms, highlighting my advanced proficiency in Java.
 
-- **SoftUni-Advanced-Exam**: 
-Advanced level projects that delve into more complex programming concepts, data structures and algorithms, further demonstrating my proficiency in Java.
+### SoftUni-OOP-Exam
+An exam focused on Object-Oriented Programming (OOP) principles, including encapsulation, inheritance, polymorphism, and abstraction in Java. 
+This exam showcases my ability to design and implement software using OOP methodologies.
 
-- **SoftUni-OPP-Exam**: 
-Projects focused on Object-Oriented Programming (OOP) principles, encapsulation, inheritance, polymorphism, and abstraction in Java. 
-These projects exemplify my ability to design and implement software using OOP methodologies.
-
-- **SoftUni-Exam-MySql**: 
-This SQL file contains my work on database design, querying, and manipulation, showcasing my skills in MySQL.
-It includes examples of database schema creation, data insertion, and complex query writing for data analysis.
+### SoftUni-Exam-MySql
+An SQL examination file that demonstrates my work on database design, querying, and manipulation, showcasing my skills in MySQL. 
+It includes tasks such as database schema creation, data insertion, and complex query writing for data analysis.
