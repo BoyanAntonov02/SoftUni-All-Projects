@@ -1,0 +1,65 @@
+package halloween;
+
+import java.util.*;
+
+public class P01 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Deque<Integer> fuelStack = new ArrayDeque<>();
+        Deque<Integer> consumption = new ArrayDeque<>();
+        Deque<Integer> needFuel = new ArrayDeque<>();
+
+
+        Arrays.stream(scanner. nextLine().split("\\s+"))
+                .map(Integer::parseInt).forEach(fuelStack::push);
+
+        Arrays.stream(scanner. nextLine().split("\\s+"))
+                .map(Integer::parseInt).forEach(consumption::offer);
+
+        Arrays.stream(scanner. nextLine().split("\\s+"))
+                .map(Integer::parseInt).forEach(needFuel::offer);
+
+        int success = 0;
+        
+        while (!fuelStack.isEmpty() && !consumption.isEmpty() && !needFuel.isEmpty()){
+
+            int currentFuel = fuelStack.peek();
+            int currentConsumption = consumption.peek();
+            int currentNeedFuel = needFuel.peek();
+
+            int result = currentFuel - currentConsumption;
+
+            if(result >= currentNeedFuel){
+                success++;
+                fuelStack.pop();
+                consumption.poll();
+                needFuel.poll();
+                System.out.printf("John has reached: Altitude %d%n", success);
+            } else {
+                System.out.printf("John did not reach: Altitude %d%n", success + 1);
+                break;
+            }
+
+        }
+
+        if(needFuel.isEmpty()){
+            System.out.println("John has reached all the altitudes and managed to reach the top!");
+        } else if (success == 0) {
+            System.out.println("John failed to reach the top.\n" +
+                    "John didn't reach any altitude.\n");
+        } else if (success > 0) {
+            System.out.println("John failed to reach the top.");
+
+            System.out.print("Reached altitudes:");
+            for (int i = 1; i <= success; i++) {
+                if (i < success) {
+                    System.out.printf(" Altitude %d,", i);
+                } else {
+                    System.out.printf(" Altitude %d", i);
+                }
+            }
+
+        }
+    }
+}
