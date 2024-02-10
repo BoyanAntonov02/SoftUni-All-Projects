@@ -9,7 +9,7 @@ A comprehensive examination focused on programming fundamentals, showcasing my m
 An advanced level exam that tests complex programming concepts, data structures, and algorithms, highlighting my advanced proficiency in Java.
 
 ### SoftUni-OOP-Exam
-An exam focused on Object-Oriented Programming (OOP) principles, including encapsulation, inheritance, polymorphism, and abstraction in Java. 
+An exam focused on Object-Oriented Programming (OOP) principles, including encapsulation, inheritance, polymorphism, abstraction and unit testing in Java. 
 This exam showcases my ability to design and implement software using OOP methodologies.
 
 ### SoftUni-Exam-MySql
