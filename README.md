@@ -16,6 +16,6 @@ Advanced level projects that delve into more complex programming concepts, data 
 Projects focused on Object-Oriented Programming (OOP) principles, encapsulation, inheritance, polymorphism, and abstraction in Java. 
 These projects exemplify my ability to design and implement software using OOP methodologies.
 
-- **SoftUni-Exam-MySql.sql**: 
+- **SoftUni-Exam-MySql**: 
 This SQL file contains my work on database design, querying, and manipulation, showcasing my skills in MySQL.
 It includes examples of database schema creation, data insertion, and complex query writing for data analysis.
