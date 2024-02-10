@@ -1,0 +1,164 @@
+create table `continents`(
+	`id` int primary key auto_increment,
+    `name` varchar(40) not null unique
+);
+
+create table `countries`(
+	`id` int primary key auto_increment,
+    `name` varchar(40) not null unique,
+    `country_code` varchar(10) not null unique,
+    `continent_id` int not null,
+    
+     constraint `fk_countries_continents`
+    foreign key (`continent_id`) references `continents` (`id`)
+    
+);
+
+create table `preserves`(
+	`id` int primary key auto_increment,
+    `name` varchar(255) not null unique,
+    `latitude` decimal(9, 6),
+    `longitude` decimal(9, 6),
+    `area` int,
+    `type` varchar(20),
+    `established_on` date
+	
+);
+
+
+create table `positions`(
+	`id` int primary key auto_increment,
+    `name` varchar(40) not null unique,
+    `description` text,
+    `is_dangerous` tinyint(1) not null
+);
+
+create table `workers`(
+	`id` int primary key auto_increment,
+    `first_name` varchar(40) not null,
+    `last_name` varchar(40) not null,
+    `age` int,
+    `personal_number` varchar(20) not null unique,
+    `salary` decimal(19,2),
+    `is_armed` tinyint(1) not null,
+    `start_date` date,
+    `preserve_id` int,
+     constraint `fk_workers_preserves`
+    foreign key (`preserve_id`) references `preserves` (`id`),
+    
+    `position_id` int,
+    constraint `fk_workers_positions`
+    foreign key (`position_id`) references `positions` (`id`)
+);
+
+
+create table `countries_preserves`(
+
+	`country_id` int,
+    `preserve_id`  int,
+	key `pk_countries_preserves` (`country_id`, `preserve_id`),
+    
+    constraint `fk_countries_countires`
+    foreign key (`country_id`) references `countries` (`id`),
+    
+    constraint `fk_countries_preserves`
+    foreign key (`preserve_id`) references `preserves` (`id`)
+);
+
+SELECT COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE()
+ AND LENGTH(COLUMN_KEY) > 1
+ORDER BY TABLE_NAME, COLUMN_KEY;
+
+insert into `preserves` (`name`, `latitude`, `longitude`, `area`, `type`, `established_on`)
+select concat(`name`, ' ', "is in South Hemisphere"),
+		(`latitude`), 
+        (`longitude`),
+        (`area` * `id`), 
+        lower(`type`),
+        `established_on`
+        from `preserves`
+        where `latitude` < 0;
+        
+        
+update `workers`
+set `salary` = `salary` + 500
+where `position_id` = 5
+or `position_id` = 8
+or `position_id` = 11
+or `position_id` = 13;
+
+delete p from `preserves` as p
+where p.`established_on` is null;
+
+SELECT CONCAT(`first_name`, ' ', `last_name`) AS 'full_name',
+       DATEDIFF('2024-01-01', `start_date`) AS 'days_of_experience'
+FROM `workers`
+WHERE DATEDIFF('2024-01-01', `start_date`) > (5 * 365) 
+ORDER BY `days_of_experience` DESC
+LIMIT 10;
+
+select w.`id`, w.`first_name`, w.`last_name`, p.`name`, c.`country_code`
+from `workers` as w
+join `preserves` as p on w.`preserve_id` = p.`id`
+join `countries_preserves` as cp on p.`id` = cp.`preserve_id`
+join `countries` as c on cp.`country_id` = c.`id`
+where w.`salary` > 5000 and w.`age` < 50
+order by c.`country_code`;
+
+select p.`name`, count(w.`id`) as 'armed_workers'
+from `preserves` as p
+join `workers` as w on w.`preserve_id` = p.`id`
+where w.`is_armed` = 1
+group by w.`preserve_id`
+order by `armed_workers` desc, p.`name`;
+
+select p.`name`, c.`country_code`, year(p.`established_on`) as 'founded_in'
+from `preserves` as p
+join `countries_preserves` as cp on p.`id` = cp.`preserve_id`
+join `countries` as c on cp.`country_id` = c.`id`
+where month(`established_on`) = 05 
+order by established_on
+limit 5;
+
+select p.`id`, p.`name`,
+		(case
+            when p.`area` <= 100 then 'very small'
+            when p.`area` <= 1000 then 'small'
+            when p.`area` <= 10000 then 'medium'
+            when p.`area` <= 50000 then 'large'
+            else 'very large'
+        end
+        ) as 'category'
+from `preserves` as p
+order by p.`area` desc;
+
+
+DELIMITER $$
+
+CREATE FUNCTION udf_average_salary_by_position_name(`position_name` VARCHAR(40))
+RETURNS DECIMAL(19,2)
+DETERMINISTIC
+BEGIN
+	DECLARE average_salary_amount DECIMAL(19,2);
+    SELECT AVG(w.`salary`) INTO average_salary_amount
+    FROM `workers` AS w
+    JOIN `positions` AS p ON w.`position_id` = p.`id`
+    WHERE p.`name` = position_name;
+    
+    RETURN average_salary_amount;
+END$$
+
+
+
+
+delimiter $$
+create procedure udp_increase_salaries_by_country(country_name varchar(50))
+begin
+	update `workers` as w
+    join `preserves` as p on w.`preserve_id` = p.`id`
+	join `countries_preserves` as cp on p.`id` = cp.`preserve_id`
+	join `countries` as c on cp.`country_id` = c.`id`
+    set w.`salary` = w.`salary` * 1.05
+    where c.`name` = country_name;
+end$$
