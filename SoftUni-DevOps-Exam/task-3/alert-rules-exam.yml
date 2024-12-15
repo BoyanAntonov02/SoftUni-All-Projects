@@ -1,0 +1,11 @@
+groups:
+  - name: http_probes
+    rules:
+      - alert: HighHTTPTransferDuration
+        expr: probe_http_duration_seconds{phase="transfer"} > 0.1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High HTTP transfer duration detected"
+          description: "The HTTP transfer duration is {{ $value }} seconds, exceeding the threshold of 0.1 seconds."
